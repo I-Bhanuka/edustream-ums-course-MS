@@ -34,7 +34,7 @@ server:
   # Server port Configuration
 
   servlet:
-    context-path: /ums
+    context-path: /course
     # Set the Context path
 
 management:
