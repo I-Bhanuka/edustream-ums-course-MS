@@ -1,0 +1,42 @@
+package com.example.edustream_courseMS.entity;
+
+import com.example.edustream_courseMS.enums.CourseStatus;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "course")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Course {
+
+    @Id
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
+
+    @Column(name = "courseid", length = 8, nullable = false, unique = true)
+    private String courseId;
+
+    @Column(name = "coursename", length = 50, nullable = false)
+    private String courseName;
+
+    @Column(name = "duration_days")
+    private int durationDays;
+
+    @Column(length = 10)
+    private String badge;
+
+    @Column(name = "enrolledstudentscount")
+    private int enrolledStudentsCount = 0;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "coursestatus", length = 10, nullable = false)
+    private CourseStatus courseStatus = CourseStatus.SCHEDULED;
+}
