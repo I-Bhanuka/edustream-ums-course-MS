@@ -20,7 +20,7 @@ public class EdustreamCourseMsApplication implements CommandLineRunner {
 	// To run some code after the application starts.
 	@Override
 	public void run(String... args) throws Exception {
-		log.info("EduStream Student Microservice started");
+		log.info("EduStream Course Microservice started");
 		log.info("BFF is running at http://localhost:{}", port);
 
 	}
