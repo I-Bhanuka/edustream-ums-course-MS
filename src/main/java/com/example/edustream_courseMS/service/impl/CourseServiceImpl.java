@@ -4,10 +4,13 @@ import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterCourseResponseDTO;
 import com.example.edustream_courseMS.entity.Course;
 import com.example.edustream_courseMS.enums.CourseStatus;
+import com.example.edustream_courseMS.exception.CourseNotFoundException;
 import com.example.edustream_courseMS.repository.CourseRepository;
 import com.example.edustream_courseMS.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,5 +57,34 @@ public class CourseServiceImpl implements CourseService {
                 .durationDays(registerCourse.getDurationDays())
                 .courseStatus(registerCourse.getCourseStatus())
                 .build();
+    }
+
+    @Override
+    public Page<Course> getAllCourses(Pageable pageable) {
+        log.info("================================ Get All Courses Paginated ==============================");
+
+        // Call the database to retrieve the paginated list of courses
+        log.info("Retrieving courses from database with pagination - Page Number: {}, Page Size: {}, Sort: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort());
+
+        Page<Course> response = courseRepository.findAll(pageable);
+
+        if (response.isEmpty()) {
+            log.warn("No records were found with courses.");
+            throw new CourseNotFoundException("any Id");
+        }
+
+        log.info("Retrieved Courses successfully. Total number of courses found: {}", response.getTotalElements());
+
+        for (Course course : response) {
+            log.info("Course found with Course Id: {} Course Name: {}, Course Badge: {}, Duration(days): {}, Enrolled students count: {}, Status: {}",
+                    course.getCourseId(), course.getCourseName(), course.getBadge(), course.getDurationDays(),
+                    course.getEnrolledStudentsCount(), course.getCourseStatus());
+        }
+
+        return response;
+
     }
 }
