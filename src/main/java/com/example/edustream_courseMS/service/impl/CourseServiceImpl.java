@@ -87,4 +87,24 @@ public class CourseServiceImpl implements CourseService {
         return response;
 
     }
+
+    /**
+     *  ================================= Helper Methods =================================
+     */
+
+    // Helper method to find the course by courseId
+    public Course findCourseByCourseId(String courseId) {
+        // Find the course
+        log.info("Finding course by course id {} ... ", courseId);
+        Course crs = courseRepository.findByCourseId(courseId).orElse(null);
+
+        // If course is not found, log the error and throw an exception
+        if (crs == null){
+            log.info("Course with courseId {} not found", courseId);
+            throw new CourseNotFoundException("Id: " + courseId);
+        }
+
+        log.info("Course found with course id {}", courseId);
+        return crs;
+    }
 }
