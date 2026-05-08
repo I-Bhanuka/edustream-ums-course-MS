@@ -88,6 +88,16 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
+    @Override
+    public Course getCourseById(String courseId) {
+
+        // Find a Course by courseId
+        log.info("==================== Get Course by Course ID =================");
+
+        return findCourseByCourseId(courseId);
+    }
+
+
     /**
      *  ================================= Helper Methods =================================
      */
