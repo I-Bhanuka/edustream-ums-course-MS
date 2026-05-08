@@ -1,5 +1,6 @@
 package com.example.edustream_courseMS.controller;
 
+import com.example.edustream_courseMS.dto.requestDTO.CourseRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.PageResponseDTO;
@@ -54,6 +55,19 @@ public class CourseController {
                         .success(true)
                         .message("Courses retrieved successfully")
                         .data(PageUtil.toPageResponse(response))
+                        .build());
+    }
+
+    @PostMapping("/getCourseById")
+    public ResponseEntity<ApiResponse<Course>> getCourseById(@RequestBody CourseRequestDTO request) {
+
+        Course response = courseService.getCourseById(request.getCourseId());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Course>builder()
+                        .success(true)
+                        .message("Course retrieved successfully")
+                        .data(response)
                         .build());
     }
 }
