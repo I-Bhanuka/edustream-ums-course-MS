@@ -1,9 +1,7 @@
-package com.example.edustream_courseMS.dto.requestDTO;
+package com.example.edustream_courseMS.dto.responseDTO;
 
 import com.example.edustream_courseMS.enums.CourseStatus;
 import lombok.*;
-
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
