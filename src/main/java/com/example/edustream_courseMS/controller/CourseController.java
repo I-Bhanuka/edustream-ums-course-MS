@@ -1,6 +1,7 @@
 package com.example.edustream_courseMS.controller;
 
-import com.example.edustream_courseMS.dto.requestDTO.CourseRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.CourseRequestByCourseIdDTO;
+import com.example.edustream_courseMS.dto.requestDTO.CourseRequestByUUIDDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.PageResponseDTO;
@@ -59,14 +60,27 @@ public class CourseController {
     }
 
     @PostMapping("/getCourseById")
-    public ResponseEntity<ApiResponse<Course>> getCourseById(@RequestBody CourseRequestDTO request) {
+    public ResponseEntity<ApiResponse<Course>> getCourseById(@RequestBody CourseRequestByCourseIdDTO request) {
 
         Course response = courseService.getCourseById(request.getCourseId());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.<Course>builder()
                         .success(true)
-                        .message("Course retrieved successfully")
+                        .message("Course retrieved successfully by course ID")
+                        .data(response)
+                        .build());
+    }
+
+    @PostMapping("/getCourseByUUID")
+    public ResponseEntity<ApiResponse<Course>> getCourseByUUID(@RequestBody CourseRequestByUUIDDTO request) {
+
+        Course response = courseService.getCourseByUUID(request.getCourseUUID());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Course>builder()
+                        .success(true)
+                        .message("Course retrieved successfully by UUID")
                         .data(response)
                         .build());
     }
