@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -115,6 +117,21 @@ public class CourseServiceImpl implements CourseService {
         }
 
         log.info("Course found with course id {}", courseId);
+        return crs;
+    }
+
+    // Helper method to find the course by UUID
+    public Course findCourseByUUID(UUID uuid) {
+        // Find the course using the UUID
+        log.info("Finding course by UUID {} ... ", uuid);
+        Course crs = courseRepository.findById(uuid).orElse(null);
+
+        if (crs == null){
+            log.info("Course with UUID {} not found", uuid);
+            throw new CourseNotFoundException("UUID: " + uuid);
+        }
+
+        log.info("Course found with UUID {}", uuid);
         return crs;
     }
 }
