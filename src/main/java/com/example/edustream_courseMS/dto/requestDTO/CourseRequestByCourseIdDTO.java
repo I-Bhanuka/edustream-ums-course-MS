@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CourseRequestDTO {
+public class CourseRequestByCourseIdDTO {
 
     @NotBlank(message = "courseId is required")
     private  String courseId;

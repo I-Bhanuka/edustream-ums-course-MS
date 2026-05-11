@@ -99,6 +99,15 @@ public class CourseServiceImpl implements CourseService {
         return findCourseByCourseId(courseId);
     }
 
+    @Override
+    public Course getCourseByUUID(UUID courseUUID) {
+
+        // Find a Course by UUID
+        log.info("==================== Get Course by UUID =================");
+
+        return findCourseByUUID(courseUUID);
+    }
+
 
     /**
      *  ================================= Helper Methods =================================
