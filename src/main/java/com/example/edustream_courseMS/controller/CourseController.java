@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("api")
 @RequiredArgsConstructor
@@ -84,4 +86,19 @@ public class CourseController {
                         .data(response)
                         .build());
     }
+
+    @PostMapping("/registerToCourse")
+    public ResponseEntity<ApiResponse<UUID>> registerToCourse(@RequestBody CourseRequestByCourseIdDTO request) {
+
+        UUID response = courseService.registerToCourse(request.getCourseId());
+
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<UUID>builder()
+                        .success(true)
+                        .message("Course registration successful")
+                        .data(response)
+                        .build());
+    }
+
 }
