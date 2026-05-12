@@ -18,4 +18,6 @@ public interface CourseService {
     Course getCourseById(String courseId);
 
     Course getCourseByUUID(UUID courseUUID);
+
+    UUID registerToCourse(String courseId);
 }

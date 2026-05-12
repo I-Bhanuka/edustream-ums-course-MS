@@ -108,6 +108,28 @@ public class CourseServiceImpl implements CourseService {
         return findCourseByUUID(courseUUID);
     }
 
+    @Override
+    public UUID registerToCourse(String courseID) {
+
+        // Find a Course by courseId for assignment
+        log.info("==================== Get Course by Course ID For Assignment =================");
+        Course course = findCourseByCourseId(courseID);
+
+        // Increment the enrolled students count for the course
+        log.info("Incrementing the enrolled students count for course with course id {}. Current enrolled students count: {}", courseID, course.getEnrolledStudentsCount());
+        course.setEnrolledStudentsCount(course.getEnrolledStudentsCount() + 1);
+
+        log.info("Increment completed. Updated enrolled students count for course with course id {}: {}", courseID, course.getEnrolledStudentsCount());
+
+        // Save the updated course with incremented enrolled students count to the database
+        log.info("Saving the updated course with incremented enrolled students count to the database");
+        courseRepository.save(course);
+
+        return course.getId();
+
+    }
+
+
 
     /**
      *  ================================= Helper Methods =================================
