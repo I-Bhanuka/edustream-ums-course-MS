@@ -129,6 +129,25 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
+    @Override
+    public String registerToCourseCompensation(UUID courseUUID) {
+
+        // Find a Course by UUID for compensation
+        log.info("==================== Get Course by UUID For Registration Compensation =================");
+        Course course = findCourseByUUID(courseUUID);
+
+        // Decrement the enrolled students count for the course
+        log.info("Decrementing the enrolled students count for course with UUID {}. Current enrolled students count: {}", courseUUID, course.getEnrolledStudentsCount());
+        course.setEnrolledStudentsCount(course.getEnrolledStudentsCount() - 1);
+
+        log.info("Decrement completed. Updated enrolled students count for course with UUID {}: {}", courseUUID, course.getEnrolledStudentsCount());
+
+        // Save the updated course with decremented enrolled students count to the database
+        log.info("Saving the updated course with decremented enrolled students count to the database");
+        courseRepository.save(course);
+
+        return "Course registration compensation successful for course with UUID: " + courseUUID;
+    }
 
 
     /**
