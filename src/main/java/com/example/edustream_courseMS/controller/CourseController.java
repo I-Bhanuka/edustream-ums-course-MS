@@ -101,4 +101,16 @@ public class CourseController {
                         .build());
     }
 
+    @PostMapping("/registerToCourseCompensation")
+    public ResponseEntity<ApiResponse<String>> registerToCourseCompensation(@RequestBody CourseRequestByUUIDDTO request) {
+
+        String response = courseService.registerToCourseCompensation(request.getCourseUUID());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<String>builder()
+                        .success(true)
+                        .message("Course registration compensation successful")
+                        .data(response)
+                        .build());
+    }
 }
