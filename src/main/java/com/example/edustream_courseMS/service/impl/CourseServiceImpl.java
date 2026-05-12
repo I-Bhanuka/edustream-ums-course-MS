@@ -4,6 +4,7 @@ import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterCourseResponseDTO;
 import com.example.edustream_courseMS.entity.Course;
 import com.example.edustream_courseMS.enums.CourseStatus;
+import com.example.edustream_courseMS.exception.ConflictException;
 import com.example.edustream_courseMS.exception.CourseNotFoundException;
 import com.example.edustream_courseMS.repository.CourseRepository;
 import com.example.edustream_courseMS.service.CourseService;
@@ -114,6 +115,20 @@ public class CourseServiceImpl implements CourseService {
         // Find a Course by courseId for assignment
         log.info("==================== Get Course by Course ID For Assignment =================");
         Course course = findCourseByCourseId(courseID);
+
+        // Check the course status
+        log.info("Checking the course status for course with course id {}. Current course status: {}", courseID, course.getCourseStatus());
+        if (course.getCourseStatus() == CourseStatus.ONGOING) {
+            log.warn("Course with course id {} is currently ongoing. Cannot register to an ongoing course.", courseID);
+            throw new ConflictException("Cannot register to an ongoing course.");
+
+        } else if (course.getCourseStatus() == CourseStatus.COMPLETED) {
+            log.warn("Course with course id {} is already completed. Cannot register to a completed course.", courseID);
+            throw new ConflictException("Cannot register to a completed course.");
+
+        } else {
+            log.info("Course with course id {} is open for registration. Proceeding with registration.", courseID);
+        }
 
         // Increment the enrolled students count for the course
         log.info("Incrementing the enrolled students count for course with course id {}. Current enrolled students count: {}", courseID, course.getEnrolledStudentsCount());
