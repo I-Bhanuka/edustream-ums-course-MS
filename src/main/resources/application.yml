@@ -1,7 +1,11 @@
 spring:
   application:
-    name: edustream_courseMS
+    name: edustream-course-ms
     # Application name Configuration
+
+
+  config:
+    import: configserver:http://localhost:8888
 
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
@@ -29,13 +33,6 @@ spring:
         max-page-size: 100
       # Pagination configuration
 
-server:
-  port: 8083
-  # Server port Configuration
-
-  servlet:
-    context-path: /course
-    # Set the Context path
 
 management:
   endpoints:
