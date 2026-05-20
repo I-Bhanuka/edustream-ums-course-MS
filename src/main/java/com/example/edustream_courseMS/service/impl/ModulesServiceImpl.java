@@ -58,7 +58,7 @@ public class ModulesServiceImpl implements ModulesService {
         log.info("Module Code: {}", moduleRequestByModuleCode.getModuleCode());
 
         Modules module = modulesRepository.findByModuleCode(moduleRequestByModuleCode.getModuleCode())
-                .orElseThrow(() -> new NotFoundException("Module not found with code: " + moduleRequestByModuleCode.getModuleCode()));
+                .orElseThrow(() -> new ModuleNotFoundException(moduleRequestByModuleCode.getModuleCode()));
 
         return ModuleRequestResponseDTO.builder()
                 .moduleName(module.getModuleName())
