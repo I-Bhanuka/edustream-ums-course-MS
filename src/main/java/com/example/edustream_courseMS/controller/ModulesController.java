@@ -9,6 +9,8 @@ import com.example.edustream_courseMS.service.ModulesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,19 @@ public class ModulesController {
                             .message("Module retrieved successfully")
                             .data(responseDTO)
                             .build());
+    }
+
+    @GetMapping("/getAllModules")
+    public ResponseEntity<ApiResponse<Page<ModuleRequestResponseDTO>>> getAllModules(Pageable pageable) {
+
+        Page<ModuleRequestResponseDTO> responseDTO = modulesService.getAllModulesService(pageable);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Page<ModuleRequestResponseDTO>>builder()
+                        .success(true)
+                        .message("Modules retrieved successfully")
+                        .data(responseDTO)
+                        .build());
     }
 
 
