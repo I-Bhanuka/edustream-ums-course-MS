@@ -5,11 +5,14 @@ import com.example.edustream_courseMS.dto.requestDTO.RegisterModuleRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ModuleRequestResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterModuleResponseDTO;
 import com.example.edustream_courseMS.entity.Modules;
+import com.example.edustream_courseMS.exception.ModuleNotFoundException;
 import com.example.edustream_courseMS.exception.NotFoundException;
 import com.example.edustream_courseMS.repository.ModulesRepository;
 import com.example.edustream_courseMS.service.ModulesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,5 +65,33 @@ public class ModulesServiceImpl implements ModulesService {
                 .moduleCode(module.getModuleCode())
                 .credit(module.getCredit())
                 .build();
+    }
+
+    @Override
+    public Page<ModuleRequestResponseDTO> getAllModulesService(Pageable pageable){
+
+        log.info("================================ Retrieving All Modules Paginated without UUID ==============================");
+
+        // Call the database to retrieve the paginated list of students
+        log.info("Retrieving modules without UUID from database with pagination - Page Number: {}, Page Size: {}, Sort: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort());
+
+        Page<ModuleRequestResponseDTO> modulesPage = modulesRepository.findAllWithoutUUID(pageable);
+
+        if (modulesPage.isEmpty()) {
+            log.warn("No records were found.");
+            throw new ModuleNotFoundException("any Id");
+        }
+
+        log.info("Retrieved Modules successfully with limited details. Total number of students found: {}", modulesPage.getTotalElements());
+
+        for (ModuleRequestResponseDTO module : modulesPage) {
+            log.info("Module found with Module Code: {} Module Name: {}, Credit: {}",
+                    module.getModuleName(), module.getModuleCode(), module.getCredit());
+        }
+
+        return modulesPage;
     }
 }
