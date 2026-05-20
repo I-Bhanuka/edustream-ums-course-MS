@@ -25,7 +25,7 @@ public class StudentModule {
     private UUID studentId;
 
     @Column(name = "module_id", nullable = false)
-    private UUID module_id;
+    private UUID moduleId;
 
     @Column(name = "semester_id", nullable = false)
     private UUID semesterId;
