@@ -1,8 +1,11 @@
 package com.example.edustream_courseMS.service.impl;
 
+import com.example.edustream_courseMS.dto.requestDTO.ModuleRequestByModuleCode;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterModuleRequestDTO;
+import com.example.edustream_courseMS.dto.responseDTO.ModuleRequestResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterModuleResponseDTO;
 import com.example.edustream_courseMS.entity.Modules;
+import com.example.edustream_courseMS.exception.NotFoundException;
 import com.example.edustream_courseMS.repository.ModulesRepository;
 import com.example.edustream_courseMS.service.ModulesService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,7 @@ public class ModulesServiceImpl implements ModulesService {
     private final ModulesRepository modulesRepository;
 
     @Override
-    public RegisterModuleResponseDTO registerModule(RegisterModuleRequestDTO registerModuleRequestDTO) {
+    public RegisterModuleResponseDTO registerModuleService(RegisterModuleRequestDTO registerModuleRequestDTO) {
 
         log.info("================================ Registering New Module ==============================");
 
@@ -41,6 +44,23 @@ public class ModulesServiceImpl implements ModulesService {
                 .moduleName(registerModule.getModuleName())
                 .moduleCode(registerModule.getModuleCode())
                 .credit(registerModule.getCredit())
+                .build();
+    }
+
+    @Override
+    public ModuleRequestResponseDTO getModuleByModuleCodeService(ModuleRequestByModuleCode moduleRequestByModuleCode) {
+
+        log.info("================================ Retrieving Module by Module Code ==============================");
+
+        log.info("Module Code: {}", moduleRequestByModuleCode.getModuleCode());
+
+        Modules module = modulesRepository.findByModuleCode(moduleRequestByModuleCode.getModuleCode())
+                .orElseThrow(() -> new NotFoundException("Module not found with code: " + moduleRequestByModuleCode.getModuleCode()));
+
+        return ModuleRequestResponseDTO.builder()
+                .moduleName(module.getModuleName())
+                .moduleCode(module.getModuleCode())
+                .credit(module.getCredit())
                 .build();
     }
 }
