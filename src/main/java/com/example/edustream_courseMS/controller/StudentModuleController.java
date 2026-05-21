@@ -4,9 +4,12 @@ import com.example.edustream_courseMS.dto.requestDTO.EnrollStudentToModuleReques
 import com.example.edustream_courseMS.dto.requestDTO.RequestModuleEnrollmentById;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.EnrollStudentToModuleResponseDTO;
+import com.example.edustream_courseMS.entity.StudentModule;
 import com.example.edustream_courseMS.service.StudentModuleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +50,16 @@ public class StudentModuleController {
     }
 
 
-//    @GetMapping("/getAll")
-//    public ResponseEntity<ApiResponse<Page<>>>
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<Page<StudentModule>>> getAllEnrollments(Pageable pageable) {
+
+        Page<StudentModule> responseDTO = studentModuleService.getAllEnrollmentsService(pageable);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Page<StudentModule>>builder()
+                        .success(true)
+                        .message("All enrollments retrieved successfully")
+                        .data(responseDTO)
+                        .build());
+    }
 }
