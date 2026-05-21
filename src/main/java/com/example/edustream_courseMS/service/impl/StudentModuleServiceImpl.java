@@ -3,6 +3,7 @@ package com.example.edustream_courseMS.service.impl;
 import com.example.edustream_courseMS.dto.requestDTO.EnrollStudentToModuleRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestModuleEnrollmentById;
 import com.example.edustream_courseMS.dto.responseDTO.EnrollStudentToModuleResponseDTO;
+import com.example.edustream_courseMS.dto.responseDTO.ModuleRequestResponseDTO;
 import com.example.edustream_courseMS.entity.StudentModule;
 import com.example.edustream_courseMS.enums.StudentModuleStatus;
 import com.example.edustream_courseMS.exception.EnrollmentModuleNotFoundException;
@@ -10,6 +11,8 @@ import com.example.edustream_courseMS.repository.StudentModuleRepository;
 import com.example.edustream_courseMS.service.StudentModuleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -64,6 +67,33 @@ public class StudentModuleServiceImpl implements StudentModuleService {
                 .semesterId(studentModule.getSemesterId())
                 .status(studentModule.getStudentModuleStatus())
                 .build();
+    }
+
+
+    @Override
+    public Page<StudentModule> getAllEnrollmentsService(Pageable pageable) {
+        log.info("================================= Retrieving All Student Module Enrollments ===============================");
+
+        log.info("Retrieving all student module enrollments with pagination - Page Number: {}, Page Size: {}",
+                pageable.getPageNumber(), pageable.getPageSize());
+
+        // Call the database to retrieve the paginated list of enrollments
+        Page<StudentModule> studentModulePage = studentModuleRepository.findAll(pageable);
+
+        // Check if the page is empty and log a warning if no records were found
+        if (studentModulePage.isEmpty()) {
+            log.warn("No student module enrollments were found.");
+            throw new EnrollmentModuleNotFoundException("Any Id");
+        }
+
+        log.info("Retrieved student module enrollments successfully. Total number of enrollments found: {}", studentModulePage.getTotalElements());
+
+        for (StudentModule enrollments : studentModulePage) {
+            log.info("Student module enrollments found with Enrollment ID: {} Student ID: {}, Module ID: {}, Semester ID: {}, Status: {}",
+                    enrollments.getId(), enrollments.getStudentId(), enrollments.getModuleId(), enrollments.getSemesterId(), enrollments.getStudentModuleStatus());
+        }
+
+        return studentModulePage;
     }
 
 }
