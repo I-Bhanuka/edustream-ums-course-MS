@@ -10,6 +10,8 @@ import com.example.edustream_courseMS.repository.SemesterRepository;
 import com.example.edustream_courseMS.service.SemesterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -83,5 +85,38 @@ public class SemesterServiceImpl implements SemesterService {
                     .startDate(semester.getStartDate())
                     .endDate(semester.getEndDate())
                     .build();
+    }
+
+    @Override
+    public Page<Semester> getAllSemestersService(Pageable pageable) {
+
+        log.info("================================ Retrieve All Semesters Paginated ==============================");
+
+        // Call the database to retrieve the paginated list of students
+        log.info("Retrieving Semesters from database with pagination - Page Number: {}, Page Size: {}, Sort: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort());
+
+        Page<Semester> semesterPage = semesterRepository.findAll(pageable);
+
+        if (semesterPage.isEmpty()) {
+            log.warn("No records were found.");
+            throw new  SemesterNotFoundException("any Id");
+        }
+
+        log.info("Total Semesters found: {}", semesterPage.getTotalElements());
+
+        for (Semester semester : semesterPage.getContent()) {
+            log.info("Semester found with ID: {}. Semester Name: {}, Semester Number: {}, Semester Year: {}, Semester Start Date: {}, Semester End Date: {}",
+                    semester.getId(),
+                    semester.getName(),
+                    semester.getSemesterNo(),
+                    semester.getYear(),
+                    semester.getStartDate(),
+                    semester.getEndDate());
+        }
+
+        return semesterPage;
     }
 }
