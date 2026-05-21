@@ -5,15 +5,15 @@ import com.example.edustream_courseMS.dto.requestDTO.ResultsRequestByEnrollmentI
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.PostResultsResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentResponseDTO;
+import com.example.edustream_courseMS.dto.responseDTO.ResultsResponseDTO;
 import com.example.edustream_courseMS.service.ResultsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/results")
@@ -46,6 +46,18 @@ public class ResultsController {
         return ResponseEntity.ok(ApiResponse.<ResultsByEnrollmentResponseDTO>builder()
                 .success(true)
                 .message("Result retrieved successfully for enrollment ID: " + resultsRequestByEnrollmentIdDTO.getEnrollmentId())
+                .data(response)
+                .build());
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<Page<ResultsResponseDTO>>> getAllResults(Pageable pageable) {
+
+        Page<ResultsResponseDTO> response = resultsService.getAllResultsService(pageable);
+
+        return ResponseEntity.ok(ApiResponse.<Page<ResultsResponseDTO>>builder()
+                .success(true)
+                .message("All results retrieved successfully")
                 .data(response)
                 .build());
     }
