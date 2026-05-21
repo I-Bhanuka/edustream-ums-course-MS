@@ -1,12 +1,12 @@
 package com.example.edustream_courseMS.service.impl;
 
 import com.example.edustream_courseMS.dto.requestDTO.PostResultsRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.ResultsRequestByEnrollmentIdDTO;
 import com.example.edustream_courseMS.dto.responseDTO.GradeAndGradePointResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.PostResultsResponseDTO;
-import com.example.edustream_courseMS.dto.responseDTO.RegisterCourseResponseDTO;
-import com.example.edustream_courseMS.entity.Course;
+import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentResponseDTO;
 import com.example.edustream_courseMS.entity.Results;
-import com.example.edustream_courseMS.enums.CourseStatus;
+import com.example.edustream_courseMS.exception.ResultsNotFoundException;
 import com.example.edustream_courseMS.repository.GradeScaleRepository;
 import com.example.edustream_courseMS.repository.ResultsRepository;
 import com.example.edustream_courseMS.service.ResultsService;
@@ -58,4 +58,34 @@ public class ResultsServiceImpl implements ResultsService {
                 .gradePoint(results.getGradePoint())
                 .build();
     }
+
+    @Override
+    public ResultsByEnrollmentResponseDTO getResultsByEnrollmentIdService(
+            ResultsRequestByEnrollmentIdDTO resultsRequestByEnrollmentIdDTO) {
+
+        log.info("================================ Get Result by Enrollment ID ==============================");
+
+        log.info("Get Result Request details - Enrollment ID: {}",
+                resultsRequestByEnrollmentIdDTO.getEnrollmentId());
+
+        // Fetch the Result from the database using the enrollment ID
+        Results results = resultsRepository.findByEnrollmentId(resultsRequestByEnrollmentIdDTO.getEnrollmentId())
+                .orElseThrow(() -> new ResultsNotFoundException(resultsRequestByEnrollmentIdDTO.getEnrollmentId().toString()));
+
+        log.info("Result found for Enrollment ID {}: Mark - {}, Grade - {}, Grade Point - {}",
+                resultsRequestByEnrollmentIdDTO.getEnrollmentId(),
+                results.getMark(),
+                results.getGrade(),
+                results.getGradePoint());
+
+        return ResultsByEnrollmentResponseDTO.builder()
+                .enrollmentId(results.getEnrollmentId())
+                .mark(results.getMark())
+                .grade(results.getGrade())
+                .gradePoint(results.getGradePoint())
+                .releasedAt(results.getReleasedAt())
+                .build();
+
+    }
+
 }
