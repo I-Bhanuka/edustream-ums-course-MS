@@ -10,12 +10,11 @@ import com.example.edustream_courseMS.entity.GradeScale;
 import com.example.edustream_courseMS.service.GradeScaleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/grade-scale")
@@ -49,6 +48,19 @@ public class GradeScaleController {
                 .body(ApiResponse.<GradeScaleRequestResponseDTO>builder()
                         .success(true)
                         .message("Grade scale retrieved successfully gy grade: " + requestGradeScaleByGrade.getGrade())
+                        .data(responseDTO)
+                        .build());
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<Page<GradeScale>>> getAllGradeScales(Pageable pageable) {
+
+        Page<GradeScale> responseDTO = gradeScaleService.getAllGradeScalesService(pageable);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Page<GradeScale>>builder()
+                        .success(true)
+                        .message("Grade scales retrieved successfully")
                         .data(responseDTO)
                         .build());
     }
