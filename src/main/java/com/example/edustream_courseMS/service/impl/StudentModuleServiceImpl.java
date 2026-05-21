@@ -1,9 +1,11 @@
 package com.example.edustream_courseMS.service.impl;
 
 import com.example.edustream_courseMS.dto.requestDTO.EnrollStudentToModuleRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.RequestModuleEnrollmentById;
 import com.example.edustream_courseMS.dto.responseDTO.EnrollStudentToModuleResponseDTO;
 import com.example.edustream_courseMS.entity.StudentModule;
 import com.example.edustream_courseMS.enums.StudentModuleStatus;
+import com.example.edustream_courseMS.exception.EnrollmentModuleNotFoundException;
 import com.example.edustream_courseMS.repository.StudentModuleRepository;
 import com.example.edustream_courseMS.service.StudentModuleService;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,22 @@ public class StudentModuleServiceImpl implements StudentModuleService {
                 .status(StudentModuleStatus.ACTIVE)
                 .build();
 
+    }
+
+    @Override
+    public EnrollStudentToModuleResponseDTO getEnrollmentByIdService(RequestModuleEnrollmentById requestModuleEnrollmentById) {
+        log.info("================================ Retrieving Student Module Enrollment by ID ===============================");
+        log.info("Retrieving Student Module Enrollment with ID: {}", requestModuleEnrollmentById.getEnrollmentId());
+
+        StudentModule studentModule = studentModuleRepository.findById(requestModuleEnrollmentById.getEnrollmentId())
+                .orElseThrow(() -> new EnrollmentModuleNotFoundException("Enrollment not found with ID: " + requestModuleEnrollmentById.getEnrollmentId()));
+
+        return EnrollStudentToModuleResponseDTO.builder()
+                .studentId(studentModule.getStudentId())
+                .moduleId(studentModule.getModuleId())
+                .semesterId(studentModule.getSemesterId())
+                .status(studentModule.getStudentModuleStatus())
+                .build();
     }
 
 }
