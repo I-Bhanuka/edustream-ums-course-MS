@@ -1,8 +1,10 @@
 package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.PostResultsRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.ResultsRequestByEnrollmentIdDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.PostResultsResponseDTO;
+import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentResponseDTO;
 import com.example.edustream_courseMS.service.ResultsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +35,18 @@ public class ResultsController {
                 .data(response)
                 .build());
 
+    }
+
+    @PostMapping("/getResultsByEnrollmentId")
+    public ResponseEntity<ApiResponse<ResultsByEnrollmentResponseDTO>> getResultsByEnrollmentId(
+            @Valid @RequestBody ResultsRequestByEnrollmentIdDTO resultsRequestByEnrollmentIdDTO) {
+
+        ResultsByEnrollmentResponseDTO response = resultsService.getResultsByEnrollmentIdService(resultsRequestByEnrollmentIdDTO);
+
+        return ResponseEntity.ok(ApiResponse.<ResultsByEnrollmentResponseDTO>builder()
+                .success(true)
+                .message("Result retrieved successfully for enrollment ID: " + resultsRequestByEnrollmentIdDTO.getEnrollmentId())
+                .data(response)
+                .build());
     }
 }
