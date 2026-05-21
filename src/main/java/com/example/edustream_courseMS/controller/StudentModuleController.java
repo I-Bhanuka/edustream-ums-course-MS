@@ -1,6 +1,7 @@
 package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.EnrollStudentToModuleRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.RequestModuleEnrollmentById;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.EnrollStudentToModuleResponseDTO;
 import com.example.edustream_courseMS.service.StudentModuleService;
@@ -8,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/StudentModule")
@@ -33,4 +31,22 @@ public class StudentModuleController {
                         .data(responseDTO)
                         .build());
     }
+
+    @PostMapping("/getById")
+    public ResponseEntity<ApiResponse<EnrollStudentToModuleResponseDTO>> getEnrollmentByd(
+            @Valid @RequestBody RequestModuleEnrollmentById requestModuleEnrollmentById) {
+
+        EnrollStudentToModuleResponseDTO responseDTO = studentModuleService.getEnrollmentByIdService(requestModuleEnrollmentById);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<EnrollStudentToModuleResponseDTO>builder()
+                        .success(true)
+                        .message("Enrollment retrieved successfully")
+                        .data(responseDTO)
+                        .build());
+    }
+
+
+//    @GetMapping("/getAll")
+//    public ResponseEntity<ApiResponse<Page<>>>
 }
