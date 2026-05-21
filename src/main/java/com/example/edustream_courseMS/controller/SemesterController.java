@@ -5,15 +5,15 @@ import com.example.edustream_courseMS.dto.requestDTO.RequestSemesterById;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterSemesterResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.SemesterRequestResponseDTO;
+import com.example.edustream_courseMS.entity.Semester;
 import com.example.edustream_courseMS.service.SemesterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/semester")
@@ -51,6 +51,19 @@ public class SemesterController {
                         .build());
 
 
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponse<Page<Semester>>> getAllSemesters(Pageable pageable) {
+
+        Page<Semester> responseDTO = semesterService.getAllSemestersService(pageable);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Page<Semester>>builder()
+                        .success(true)
+                        .message("Semesters retrieved successfully")
+                        .data(responseDTO)
+                        .build());
     }
 
 }
