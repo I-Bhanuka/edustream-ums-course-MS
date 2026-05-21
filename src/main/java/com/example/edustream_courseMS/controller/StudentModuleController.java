@@ -1,6 +1,6 @@
 package com.example.edustream_courseMS.controller;
 
-import com.example.edustream_courseMS.dto.requestDTO.EnrollStudentToModuleRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.RegisterEnrollStudentToModuleRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestModuleEnrollmentById;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.EnrollStudentToModuleResponseDTO;
@@ -23,9 +23,9 @@ public class StudentModuleController {
 
     @PostMapping("/enrollStudentInModule")
     public ResponseEntity<ApiResponse<EnrollStudentToModuleResponseDTO>> enrollStudentInModule(
-            @Valid @RequestBody EnrollStudentToModuleRequestDTO enrollStudentToModuleRequestDTO) {
+            @Valid @RequestBody RegisterEnrollStudentToModuleRequestDTO registerEnrollStudentToModuleRequestDTO) {
 
-        EnrollStudentToModuleResponseDTO responseDTO = studentModuleService.enrollStudentInModuleService(enrollStudentToModuleRequestDTO);
+        EnrollStudentToModuleResponseDTO responseDTO = studentModuleService.enrollStudentInModuleService(registerEnrollStudentToModuleRequestDTO);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.<EnrollStudentToModuleResponseDTO>builder()

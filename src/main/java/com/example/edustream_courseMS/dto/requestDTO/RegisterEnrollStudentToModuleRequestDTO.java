@@ -1,6 +1,5 @@
 package com.example.edustream_courseMS.dto.requestDTO;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @ToString
-public class EnrollStudentToModuleRequestDTO {
+public class RegisterEnrollStudentToModuleRequestDTO {
 
     @NotNull(message = "student id is required")
     private UUID studentId;

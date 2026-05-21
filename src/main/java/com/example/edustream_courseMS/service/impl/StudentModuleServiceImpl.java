@@ -1,9 +1,8 @@
 package com.example.edustream_courseMS.service.impl;
 
-import com.example.edustream_courseMS.dto.requestDTO.EnrollStudentToModuleRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.RegisterEnrollStudentToModuleRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestModuleEnrollmentById;
 import com.example.edustream_courseMS.dto.responseDTO.EnrollStudentToModuleResponseDTO;
-import com.example.edustream_courseMS.dto.responseDTO.ModuleRequestResponseDTO;
 import com.example.edustream_courseMS.entity.StudentModule;
 import com.example.edustream_courseMS.enums.StudentModuleStatus;
 import com.example.edustream_courseMS.exception.EnrollmentModuleNotFoundException;
@@ -24,20 +23,20 @@ public class StudentModuleServiceImpl implements StudentModuleService {
 
     @Override
     public EnrollStudentToModuleResponseDTO enrollStudentInModuleService(
-            EnrollStudentToModuleRequestDTO enrollStudentToModuleRequestDTO) {
+            RegisterEnrollStudentToModuleRequestDTO registerEnrollStudentToModuleRequestDTO) {
 
         log.info("================================ Retrieving Module by Module Code ===============================");
 
         log.info("Enrolling Student with ID: {} to Module with ID: {} for Semester with ID: {}",
-                enrollStudentToModuleRequestDTO.getStudentId(),
-                enrollStudentToModuleRequestDTO.getModuleId(),
-                enrollStudentToModuleRequestDTO.getSemesterId());
+                registerEnrollStudentToModuleRequestDTO.getStudentId(),
+                registerEnrollStudentToModuleRequestDTO.getModuleId(),
+                registerEnrollStudentToModuleRequestDTO.getSemesterId());
 
         // Make the enrollment entity
         StudentModule request = StudentModule.builder()
-                .studentId(enrollStudentToModuleRequestDTO.getStudentId())
-                .moduleId(enrollStudentToModuleRequestDTO.getModuleId())
-                .semesterId(enrollStudentToModuleRequestDTO.getSemesterId())
+                .studentId(registerEnrollStudentToModuleRequestDTO.getStudentId())
+                .moduleId(registerEnrollStudentToModuleRequestDTO.getModuleId())
+                .semesterId(registerEnrollStudentToModuleRequestDTO.getSemesterId())
                 .studentModuleStatus(StudentModuleStatus.ACTIVE)
                 .build();
 
