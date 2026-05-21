@@ -1,19 +1,19 @@
 package com.example.edustream_courseMS.service.impl;
 
-import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterGradeScaleRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestGradeScaleByGrade;
 import com.example.edustream_courseMS.dto.responseDTO.GradeScaleRequestResponseDTO;
-import com.example.edustream_courseMS.dto.responseDTO.RegisterCourseResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterGradeScaleResponseDTO;
 import com.example.edustream_courseMS.entity.Course;
 import com.example.edustream_courseMS.entity.GradeScale;
-import com.example.edustream_courseMS.enums.CourseStatus;
+import com.example.edustream_courseMS.exception.CourseNotFoundException;
 import com.example.edustream_courseMS.exception.GradeScaleNotFoundException;
 import com.example.edustream_courseMS.repository.GradeScaleRepository;
 import com.example.edustream_courseMS.service.GradeScaleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -77,6 +77,32 @@ public class GradeScaleServiceImpl implements GradeScaleService {
                 .max(gradeScale.getMax())
                 .gradePoint(gradeScale.getGradePoint())
                 .build();
+    }
+
+    @Override
+    public Page<GradeScale> getAllGradeScalesService(Pageable pageable) {
+
+        // Call the database to retrieve the paginated list of courses
+        log.info("Retrieving Grade Scales from database with pagination - Page Number: {}, Page Size: {}, Sort: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort());
+
+        Page<GradeScale> response = gradeScaleRepository.findAll(pageable);
+
+        if (response.isEmpty()) {
+            log.warn("No records were found with courses.");
+            throw new GradeScaleNotFoundException("any Grade");
+        }
+
+        log.info("Retrieved Grade Scales successfully. Total number of grade scales found: {}", response.getTotalElements());
+
+        for (GradeScale gradeScale : response) {
+            log.info("Grade Scale found with Grade: {} Min: {}, Max: {}, GradePoint: {}",
+                    gradeScale.getGrade(), gradeScale.getMin(), gradeScale.getMax(), gradeScale.getGradePoint());
+        }
+
+        return response;
     }
 
 }
