@@ -2,16 +2,17 @@ package com.example.edustream_courseMS.service.impl;
 
 import com.example.edustream_courseMS.dto.requestDTO.PostResultsRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.ResultsRequestByEnrollmentIdDTO;
-import com.example.edustream_courseMS.dto.responseDTO.GradeAndGradePointResponseDTO;
-import com.example.edustream_courseMS.dto.responseDTO.PostResultsResponseDTO;
-import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentResponseDTO;
+import com.example.edustream_courseMS.dto.responseDTO.*;
 import com.example.edustream_courseMS.entity.Results;
+import com.example.edustream_courseMS.exception.ModuleNotFoundException;
 import com.example.edustream_courseMS.exception.ResultsNotFoundException;
 import com.example.edustream_courseMS.repository.GradeScaleRepository;
 import com.example.edustream_courseMS.repository.ResultsRepository;
 import com.example.edustream_courseMS.service.ResultsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -86,6 +87,34 @@ public class ResultsServiceImpl implements ResultsService {
                 .releasedAt(results.getReleasedAt())
                 .build();
 
+    }
+
+    @Override
+    public Page<ResultsResponseDTO> getAllResultsService(Pageable pageable) {
+
+        log.info("================================ Retrieving All Results Paginated ==============================");
+
+        // Call the database to retrieve the paginated list of students
+        log.info("Retrieving results from database with pagination - Page Number: {}, Page Size: {}, Sort: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort());
+
+        Page<ResultsResponseDTO> resultsPage = resultsRepository.findAllWithoutUUID(pageable);
+
+        if (resultsPage.isEmpty()) {
+            log.warn("No records were found.");
+            throw new ResultsNotFoundException("any Id");
+        }
+
+        log.info("Retrieved Results successfully with limited details. Total number of students found: {}", resultsPage.getTotalElements());
+
+        for (ResultsResponseDTO result : resultsPage) {
+            log.info("Result found with Enrollment ID: {} Mark: {}, Grade: {}, Grade Point: {}, Released At: {}",
+                    result.getEnrollmentId(), result.getMark(), result.getGrade(), result.getGradePoint(), result.getReleasedAt());
+        }
+
+        return resultsPage;
     }
 
 }
