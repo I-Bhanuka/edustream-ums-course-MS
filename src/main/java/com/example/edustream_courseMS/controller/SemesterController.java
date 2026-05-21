@@ -1,8 +1,10 @@
 package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.RegisterSemesterRequestDTO;
+import com.example.edustream_courseMS.dto.requestDTO.RequestSemesterById;
 import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterSemesterResponseDTO;
+import com.example.edustream_courseMS.dto.responseDTO.SemesterRequestResponseDTO;
 import com.example.edustream_courseMS.service.SemesterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,23 @@ public class SemesterController {
                         .message("Semester registered successfully")
                         .data(responseDTO)
                         .build());
+    }
+
+    @PostMapping("/getById")
+    public ResponseEntity<ApiResponse<SemesterRequestResponseDTO>> getSemesterById(
+            @Valid @RequestBody RequestSemesterById requestSemesterById) {
+
+        SemesterRequestResponseDTO responseDTO = semesterService.getSemesterByIdService(requestSemesterById);
+
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<SemesterRequestResponseDTO>builder()
+                        .success(true)
+                        .message("Semester retrieved successfully")
+                        .data(responseDTO)
+                        .build());
+
+
     }
 
 }
