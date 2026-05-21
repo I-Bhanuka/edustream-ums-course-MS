@@ -23,7 +23,7 @@ public class ResultsServiceImpl implements ResultsService {
     private final GradeScaleRepository gradeScaleRepository;
 
     @Override
-    public PostResultsResponseDTO postResults(PostResultsRequestDTO postResultsRequestDTO) {
+    public PostResultsResponseDTO postResultsService(PostResultsRequestDTO postResultsRequestDTO) {
 
         log.info("================================ Post a Result into the system ==============================");
 

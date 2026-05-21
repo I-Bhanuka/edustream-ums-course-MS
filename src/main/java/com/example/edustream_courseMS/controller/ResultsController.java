@@ -26,7 +26,7 @@ public class ResultsController {
     public ResponseEntity<ApiResponse<PostResultsResponseDTO>> postResults(
             @Valid @RequestBody PostResultsRequestDTO postResultsRequestDTO) {
 
-        PostResultsResponseDTO response = resultsService.postResults(postResultsRequestDTO);
+        PostResultsResponseDTO response = resultsService.postResultsService(postResultsRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.<PostResultsResponseDTO>builder()

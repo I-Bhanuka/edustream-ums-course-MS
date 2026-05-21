@@ -8,7 +8,7 @@ import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentRespons
 
 public interface ResultsService {
 
-    PostResultsResponseDTO postResults(PostResultsRequestDTO postResultsRequestDTO);
+    PostResultsResponseDTO postResultsService(PostResultsRequestDTO postResultsRequestDTO);
 
     ResultsByEnrollmentResponseDTO getResultsByEnrollmentIdService(ResultsRequestByEnrollmentIdDTO resultsRequestByEnrollmentIdDTO);
 
