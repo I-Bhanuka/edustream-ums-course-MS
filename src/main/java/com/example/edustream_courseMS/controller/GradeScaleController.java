@@ -2,7 +2,7 @@ package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.RegisterGradeScaleRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestGradeScaleByGrade;
-import com.example.edustream_lib_common.dto.ApiResponse;
+import com.example.edustream_lib_common.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.GradeScaleRequestResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterGradeScaleResponseDTO;
 import com.example.edustream_courseMS.entity.GradeScale;
