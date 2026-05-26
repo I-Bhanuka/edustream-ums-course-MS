@@ -2,7 +2,7 @@ package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.PostResultsRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.ResultsRequestByEnrollmentIdDTO;
-import com.example.edustream_lib_common.dto.ApiResponse;
+import com.example.edustream_lib_common.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.PostResultsResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ResultsResponseDTO;

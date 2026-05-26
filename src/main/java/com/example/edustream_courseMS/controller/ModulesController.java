@@ -2,7 +2,7 @@ package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.ModuleRequestByModuleCode;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterModuleRequestDTO;
-import com.example.edustream_lib_common.dto.ApiResponse;
+import com.example.edustream_lib_common.responseDTO.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.ModuleRequestResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterModuleResponseDTO;
 import com.example.edustream_courseMS.service.ModulesService;
