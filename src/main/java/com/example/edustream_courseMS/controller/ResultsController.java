@@ -2,7 +2,7 @@ package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.PostResultsRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.ResultsRequestByEnrollmentIdDTO;
-import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
+import com.example.edustream_lib_common.dto.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.PostResultsResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ResultsByEnrollmentResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.ResultsResponseDTO;
@@ -28,12 +28,9 @@ public class ResultsController {
 
         PostResultsResponseDTO response = resultsService.postResultsService(postResultsRequestDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.<PostResultsResponseDTO>builder()
-                .success(true)
-                .message("Result posted successfully")
-                .data(response)
-                .build());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success(response, "Result posted successfully"));
 
     }
 
@@ -43,11 +40,10 @@ public class ResultsController {
 
         ResultsByEnrollmentResponseDTO response = resultsService.getResultsByEnrollmentIdService(resultsRequestByEnrollmentIdDTO);
 
-        return ResponseEntity.ok(ApiResponse.<ResultsByEnrollmentResponseDTO>builder()
-                .success(true)
-                .message("Result retrieved successfully for enrollment ID: " + resultsRequestByEnrollmentIdDTO.getEnrollmentId())
-                .data(response)
-                .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(response, "Result retrieved successfully for enrollment ID: " + resultsRequestByEnrollmentIdDTO.getEnrollmentId()));
+
     }
 
     @GetMapping("/getAll")
@@ -55,10 +51,9 @@ public class ResultsController {
 
         Page<ResultsResponseDTO> response = resultsService.getAllResultsService(pageable);
 
-        return ResponseEntity.ok(ApiResponse.<Page<ResultsResponseDTO>>builder()
-                .success(true)
-                .message("All results retrieved successfully")
-                .data(response)
-                .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(response, "All results retrieved successfully"));
+
     }
 }

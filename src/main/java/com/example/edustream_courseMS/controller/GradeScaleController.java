@@ -1,9 +1,8 @@
 package com.example.edustream_courseMS.controller;
 
-import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterGradeScaleRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestGradeScaleByGrade;
-import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
+import com.example.edustream_lib_common.dto.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.GradeScaleRequestResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterGradeScaleResponseDTO;
 import com.example.edustream_courseMS.entity.GradeScale;
@@ -29,12 +28,10 @@ public class GradeScaleController {
 
         RegisterGradeScaleResponseDTO responseDTO = gradeScaleService.registerGradeScaleService(registerGradeScaleRequestDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).
-                body(ApiResponse.<RegisterGradeScaleResponseDTO>builder()
-                        .success(true)
-                        .message("Grade scale registered successfully")
-                        .data(responseDTO)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success(responseDTO, "Grade scale registered successfully"));
+
     }
 
 
@@ -44,12 +41,10 @@ public class GradeScaleController {
 
         GradeScaleRequestResponseDTO responseDTO = gradeScaleService.getGradeScaleByGradeService(requestGradeScaleByGrade);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<GradeScaleRequestResponseDTO>builder()
-                        .success(true)
-                        .message("Grade scale retrieved successfully gy grade: " + requestGradeScaleByGrade.getGrade())
-                        .data(responseDTO)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(responseDTO, "Grade scale retrieved successfully gy grade: " + requestGradeScaleByGrade.getGrade()));
+
     }
 
     @GetMapping("/getAll")
@@ -57,11 +52,9 @@ public class GradeScaleController {
 
         Page<GradeScale> responseDTO = gradeScaleService.getAllGradeScalesService(pageable);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<Page<GradeScale>>builder()
-                        .success(true)
-                        .message("Grade scales retrieved successfully")
-                        .data(responseDTO)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(responseDTO, "Grade scales retrieved successfully"));
+
     }
 }

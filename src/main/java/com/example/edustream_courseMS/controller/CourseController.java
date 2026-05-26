@@ -2,7 +2,7 @@ package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.CourseRequestByCourseIdDTO;
 import com.example.edustream_courseMS.dto.requestDTO.CourseRequestByUUIDDTO;
-import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
+import com.example.edustream_lib_common.dto.ApiResponse;
 import com.example.edustream_courseMS.dto.requestDTO.RegisterCourseRequestDTO;
 import com.example.edustream_courseMS.dto.responseDTO.PageResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterCourseResponseDTO;
@@ -40,11 +40,8 @@ public class CourseController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ApiResponse.<RegisterCourseResponseDTO>builder()
-                        .success(true)
-                        .message("Course registered successfully")
-                        .data(response)
-                        .build());
+                .body(ApiResponse.success(response, "Course registered successfully"));
+
     }
 
     @PostMapping("/all")
@@ -54,11 +51,7 @@ public class CourseController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.<PageResponseDTO<Course>>builder()
-                        .success(true)
-                        .message("Courses retrieved successfully")
-                        .data(PageUtil.toPageResponse(response))
-                        .build());
+                .body(ApiResponse.success(PageUtil.toPageResponse(response), "Courses retrieved successfully"));
     }
 
     @PostMapping("/getCourseById")
@@ -66,12 +59,10 @@ public class CourseController {
 
         Course response = courseService.getCourseById(request.getCourseId());
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<Course>builder()
-                        .success(true)
-                        .message("Course retrieved successfully by course ID")
-                        .data(response)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(response, "Course retrieved successfully by course ID"));
+
     }
 
     @PostMapping("/getCourseByUUID")
@@ -79,12 +70,10 @@ public class CourseController {
 
         Course response = courseService.getCourseByUUID(request.getCourseUUID());
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<Course>builder()
-                        .success(true)
-                        .message("Course retrieved successfully by UUID")
-                        .data(response)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(response, "Course retrieved successfully by UUID"));
+
     }
 
     @PostMapping("/registerToCourse")
@@ -92,13 +81,10 @@ public class CourseController {
 
         UUID response = courseService.registerToCourse(request.getCourseId());
 
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(response, "Course registration successful"));
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<UUID>builder()
-                        .success(true)
-                        .message("Course registration successful")
-                        .data(response)
-                        .build());
     }
 
     @PostMapping("/registerToCourseCompensation")
@@ -106,11 +92,9 @@ public class CourseController {
 
         String response = courseService.registerToCourseCompensation(request.getCourseUUID());
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<String>builder()
-                        .success(true)
-                        .message("Course registration compensation successful")
-                        .data(response)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(response, "Course registration compensation successful"));
+
     }
 }

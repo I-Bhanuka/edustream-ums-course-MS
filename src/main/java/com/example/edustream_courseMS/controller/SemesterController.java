@@ -2,7 +2,7 @@ package com.example.edustream_courseMS.controller;
 
 import com.example.edustream_courseMS.dto.requestDTO.RegisterSemesterRequestDTO;
 import com.example.edustream_courseMS.dto.requestDTO.RequestSemesterById;
-import com.example.edustream_courseMS.dto.responseDTO.ApiResponse;
+import com.example.edustream_lib_common.dto.ApiResponse;
 import com.example.edustream_courseMS.dto.responseDTO.RegisterSemesterResponseDTO;
 import com.example.edustream_courseMS.dto.responseDTO.SemesterRequestResponseDTO;
 import com.example.edustream_courseMS.entity.Semester;
@@ -28,12 +28,10 @@ public class SemesterController {
 
         RegisterSemesterResponseDTO responseDTO = semesterService.registerSemesterService(registerSemesterRequestDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.<RegisterSemesterResponseDTO>builder()
-                        .success(true)
-                        .message("Semester registered successfully")
-                        .data(responseDTO)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(responseDTO, "Semester registered successfully"));
+
     }
 
     @PostMapping("/getById")
@@ -42,14 +40,9 @@ public class SemesterController {
 
         SemesterRequestResponseDTO responseDTO = semesterService.getSemesterByIdService(requestSemesterById);
 
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<SemesterRequestResponseDTO>builder()
-                        .success(true)
-                        .message("Semester retrieved successfully")
-                        .data(responseDTO)
-                        .build());
-
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(responseDTO, "Semester retrieved successfully"));
 
     }
 
@@ -58,12 +51,10 @@ public class SemesterController {
 
         Page<Semester> responseDTO = semesterService.getAllSemestersService(pageable);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<Page<Semester>>builder()
-                        .success(true)
-                        .message("Semesters retrieved successfully")
-                        .data(responseDTO)
-                        .build());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(responseDTO, "Semesters retrieved successfully"));
+
     }
 
 }
