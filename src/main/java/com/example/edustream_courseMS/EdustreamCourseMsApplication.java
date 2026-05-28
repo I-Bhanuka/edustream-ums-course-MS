@@ -7,7 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(
+		scanBasePackages = {
+				"com.example.edustream_courseMS",
+				"com.example.edustream_lib_common",
+				"com.example.edustream_lib_security"
+		}
+)
 public class EdustreamCourseMsApplication implements CommandLineRunner {
 
 	@Value("${server.port}")
